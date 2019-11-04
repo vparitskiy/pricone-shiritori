@@ -21,7 +21,7 @@
       <div v-for="letterResult in result" v-if="letterResult.items.length">
         <h5 v-text="letterResult.letters"></h5>
         <div class="d-flex flex-wrap">
-          <a href="#" v-for="item in letterResult.items">
+          <a href="javascript:void(0);" v-for="item in letterResult.items">
             <img class="card-img-top" style="height: 50px; width: 50px; display: block;" :src="item.img" data-holder-rendered="true">
           </a>
         </div>

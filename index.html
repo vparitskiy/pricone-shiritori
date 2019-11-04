@@ -1,0 +1,255 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Princess Shiritori</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+
+<main role="main">
+  <div class="album py-5 bg-light">
+    <div class="container" id="app">
+      <div class="d-flex flex-wrap">
+        <a href="#" v-for="item in data" style="margin: 5px" v-on:click="onItemSelect(item)">
+          <img class="card-img-top" style="height: 50px; width: 50px; display: block;" :src="item.img" data-holder-rendered="true">
+        </a>
+      </div>
+      <div v-for="letterResult in result" v-if="letterResult.items.length">
+        <h5 v-text="letterResult.letters"></h5>
+        <div class="d-flex flex-wrap">
+          <a href="#" v-for="item in letterResult.items">
+            <img class="card-img-top" style="height: 50px; width: 50px; display: block;" :src="item.img" data-holder-rendered="true">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+  var DATA = [
+    {'img': 'static/images/dz_1.png', 'start': ['リ', 'ア', 'き'], 'end': ['ゴ', 'ル', 'つ']},
+    {'img': 'static/images/dz_4.png', 'start': ['ゴ', 'れ', 'う', 'マ'], 'end': ['ラ', 'い', 'キ', 'ほ']},
+    {'img': 'static/images/dz_8.png', 'start': ['ラ', 'ト', 'か'], 'end': ['パ', 'ト', 'き']},
+    {'img': 'static/images/dz_11.png', 'start': ['パ', 'ア'], 'end': ['ル', 'ス']},
+    {'img': 'static/images/dz_13.png', 'start': ['ル', 'ほ', 'ガ', 'ジ', 'ア', 'こ'], 'end': ['ビ', 'ト', 'チ', 'き', 'リ', 'ア']},
+    {'img': 'static/images/dz_19.png', 'start': ['ビ', 'ジ', 'む', 'え'], 'end': ['の', 'わ', 'キ', 'キ']},
+    {'img': 'static/images/dz_23.png', 'start': ['ゆ', 'と', 'ア', 'ボ'], 'end': ['や', 'ぐ', 'ロ', 'ウ']},
+    {'img': 'static/images/dz_27.png', 'start': ['お', 'リ', 'ミ', 'う', 'ド'], 'end': ['ぷ', 'ク', 'ム', 'た', 'ミ']},
+    {'img': 'static/images/dz_32.png', 'start': ['え', 'チ', 'ブ', 'あ'], 'end': ['ぐ', 'ブ', 'ル', 'ぐ']},
+    {'img': 'static/images/dz_36.png', 'start': ['ソ', 'つ', 'は', 'プ'], 'end': ['ん', 'ぎ', 'ド', 'の']},
+    {'img': 'static/images/dz_41.png', 'start': ['め', 'レ', 'ビ', 'ぐ', 'カ'], 'end': ['ね', 'ズ', 'ね']},
+    {'img': 'static/images/dz_46.png', 'start': ['む', 'レ', 'ル', 'ズ', 'た', 'で'], 'end': ['ね', 'ム', 'ム', 'ズ', 'ペ']},
+    {'img': 'static/images/dz_52.png', 'start': ['に', 'り', 'ミ', 'ほ', 'ド'], 'end': ['く', 'り', 'く', 'ト']},
+    {'img': 'static/images/dz_57.png', 'start': ['つ', 'ま', 'ム', 'ル', 'め'], 'end': ['き', 'ン', 'つ', 'つ', 'ナ']},
+    {'img': 'static/images/dz_62.png', 'start': ['こ', 'バ', 'き', 'イ'], 'end': ['り', 'き', 'く', 'ト']},
+    {'img': 'static/images/dz_66.png', 'start': ['と', 'ま', 'バ', 'ジ'], 'end': ['り', 'ド', 'ズ', 'の']},
+    {'img': 'static/images/dz_70.png', 'start': ['く', 'ズ', 'シ', 'か', 'ブ'], 'end': ['つ', 'ズ', 'ク', 'つ', 'ツ']},
+    {'img': 'static/images/dz_75.png', 'start': ['ね', 'キ', 'と', 'に', 'た'], 'end': ['こ', 'ち', 'ト']},
+    {'img': 'static/images/dz_80.png', 'start': ['き', 'お', 'さ', 'ら'], 'end': ['ょ', 'う', 'な', 'な']},
+    {'img': 'static/images/dz_84.png', 'start': ['ね', 'マ', 'ラ', 'ち'], 'end': ['み', 'ゅ', 'ス', 'ト']},
+    {'img': 'static/images/dz_88.png', 'start': ['た', 'エ', 'こ', 'と'], 'end': ['ご', 'グ', 'も', 'す']},
+    {'img': 'static/images/dz_92.png', 'start': ['ふ', 'ク', 'シ'], 'end': ['ね', 'グ', 'ん', 'プ']},
+    {'img': 'static/images/dz_96.png', 'start': ['ぎ', 'ミ', 'お', 'え'], 'end': ['う', 'ち', 'ス', 'ク']},
+    {'img': 'static/images/dz_100.png', 'start': ['チ', 'お', 'あ', 'カ', 'ド'], 'end': ['ト', 'の', 'つ', 'し', 'オ']},
+    {'img': 'static/images/dz_105.png', 'start': ['ど', 'き', 'ナ', 'リ'], 'end': ['り', 'ツ', 'つ', 'み']},
+    {'img': 'static/images/dz_109.png', 'start': ['い', 'ス', 'じ'], 'end': ['ご', 'ム', 'リ']},
+    {'img': 'static/images/dz_112.png', 'start': ['と', 'タ', 'ね', 'け', 'ま', 'む'], 'end': ['ら', 'こ', 'れ', 'ガ', 'の', 'ガ']},
+    {'img': 'static/images/dz_118.png', 'start': ['ぬ', 'う', 'に', 'ラ', 'あ'], 'end': ['み', 'ト', 'サ', 'ぎ', 'う']},
+    {'img': 'static/images/dz_123.png', 'start': ['ボ', 'き', 'と', 'ミ'], 'end': ['ん', 'つ', 'ズ', 'ム', 'ぐ']},
+    {'img': 'static/images/dz_128.png', 'start': ['す', 'こ', 'な'], 'end': ['か', 'し']},
+    {'img': 'static/images/dz_131.png', 'start': ['う', 'ろ', 'ホ', 'ぱ', 'サ', 'ム'], 'end': ['ま', 'ス', 'バ', 'か', 'ば', 'ド']},
+    {'img': 'static/images/dz_137.png', 'start': ['い', 'か', 'チ', 'ギ'], 'end': ['す', 'ぐ', 'ム', 'ア']},
+    {'img': 'static/images/dz_141.png', 'start': ['う', 'ビ', 'し', 'す'], 'end': ['み', 'い', 'ん', 'ま', 'チ']},
+    {'img': 'static/images/dz_147.png', 'start': ['や', 'か', 'こ', 'は'], 'end': ['り', 'ら', 'ト', 'い']},
+    {'img': 'static/images/dz_151.png', 'start': ['ふ', 'リ', 'か', 'た'], 'end': ['え', 'き', 'ダ', 'え']},
+    {'img': 'static/images/dz_155.png', 'start': ['ノ', 'ブ', 'し', 'キ'], 'end': ['ん', 'つ', 'ょ', 'ト', 'ク']},
+    {'img': 'static/images/dz_160.png', 'start': ['さ', 'お', 'カ', 'マ', 'フ', 'う'], 'end': ['な', 'お', 'ろ', 'シ', 'お']},
+    {'img': 'static/images/dz_166.png', 'start': ['ツ', 'ク', 'も', 'キ', 'ぼ'], 'end': ['リ', 'き', 'ル', 'ス', 'ル']},
+    {'img': 'static/images/dz_171.png', 'start': ['あ', 'キ', 'ロ', 'く'], 'end': ['め', 'プ', 'ィ', 'つ']},
+    {'img': 'static/images/dz_175.png', 'start': ['ハ', 'ピ', 'か', 'こ', 'イ'], 'end': ['マ', 'ち', 'の', 'マ', 'ち']},
+    {
+      'img': 'static/images/dz_180.png',
+      'start': ['ほ', 'ご', 'ス', 'ず', 'ひ', 'き', 'ラ'],
+      'end': ['し', 'い', 'ち', 'い', 'で', 'タ', 'ら']
+    },
+    {'img': 'static/images/dz_187.png', 'start': ['ぼ', 'ハ', 'や', 'シ'], 'end': ['し', 'う', 'ト', 'ト']},
+    {'img': 'static/images/dz_191.png', 'start': ['カ', 'コ', 'マ'], 'end': ['プ', 'グ', 'ヒ']},
+    {'img': 'static/images/dz_194.png', 'start': ['い', 'ド', 'お', 'ウ', 'わ'], 'end': ['ぬ', 'フ', 'グ', 'こ', 'み']},
+    {'img': 'static/images/dz_199.png', 'start': ['は', 'フ'], 'end': ['た', 'グ']},
+    {'img': 'static/images/dz_201.png', 'start': ['ケ', 'お', 'ぎ', 'ミ', 'き'], 'end': ['キ', 'と', 'ト', 'し', 'キ']},
+    {'img': 'static/images/dz_206.png', 'start': ['マ', 'う', 'ラ', 'ア', 'ブ'], 'end': ['ク', 'む', 'ク', 'た', 'ブ']},
+    {'img': 'static/images/dz_211.png', 'start': ['く', 'リ', 'ル'], 'end': ['に', 'ジ', 'プ']},
+    {'img': 'static/images/dz_214.png', 'start': ['も', 'お', 'か', 'た', 'ラ'], 'end': ['ち', 'つ', 'キ']},
+    {'img': 'static/images/dz_219.png', 'start': ['よ', 'フ', 'ネ'], 'end': ['い', 'リ', 'ア']},
+    {'img': 'static/images/dz_222.png', 'start': ['か', 'ア', 'パ', 'ひ', 'ぺ'], 'end': ['さ', 'ル', 'マ', 'ラ', 'さ']},
+    {'img': 'static/images/dz_227.png', 'start': ['さ', 'ダ', 'ギ', 'り', 'す'], 'end': ['ろ', 'ル', 'ス', 'い', 'く']},
+    {'img': 'static/images/dz_232.png', 'start': ['て', 'メ', 'レ', 'お', 'ラ'], 'end': ['み', 'タ', 'ル', 'り', 'タ']},
+    {'img': 'static/images/dz_237.png', 'start': ['ブ', 'グ', 'き', 'デ'], 'end': ['ウ', 'う', 'プ', 'ア']},
+    {'img': 'static/images/dz_241.png', 'start': ['ひ', 'シ', 'メ'], 'end': ['じ', 'プ', 'じ']},
+    {'img': 'static/images/dz_244.png', 'start': ['と', 'も', 'ひ', 'き'], 'end': ['ふ', 'こ']},
+    {'img': 'static/images/dz_248.png', 'start': ['あ', 'が', 'グ', 'ダ', 'と'], 'end': ['る', 'ス', 'う', 'ク', 'り']},
+    {'img': 'static/images/dz_253.png', 'start': ['と', 'や', 'オ', 'ド'], 'end': ['ぼ', 'マ', 'イ']},
+    {'img': 'static/images/dz_257.png', 'start': ['は', 'こ', 'リ', 'く', 'あ'], 'end': ['ぱ', 'フ', 'ち', 'は', 'さ']},
+    {'img': 'static/images/dz_262.png', 'start': ['ゆ', 'リ', 'わ'], 'end': ['わ', 'グ', 'か']},
+    {'img': 'static/images/dz_265.png', 'start': ['な', 'ロ', 'つ', 'ク', 'え '], 'end': ['わ', 'ム', 'プ', 'シ', 'も', 'な']},
+    {'img': 'static/images/dz_271.png', 'start': ['た', 'シ', 'ガ', 'ぼ', 'バ', 'イ'], 'end': ['て', 'ド', 'ぐ', 'ラ']},
+    {
+      'img': 'static/images/dz_277.png',
+      'start': ['お', 'か', 'マ', 'き', 'こ', 'ル', 'ギ'],
+      'end': ['ね', 'ネ', 'ピ', 'ね', 'に', 'う', 'か']
+    },
+    {'img': 'static/images/dz_284.png', 'start': ['プ', 'デ', 'ス', 'ミ'], 'end': ['ド', 'ツ', 'つ', 'ト']},
+    {'img': 'static/images/dz_288.png', 'start': ['ネ', 'ペ', 'ア', 'く'], 'end': ['ス', 'リ', 'ト', 'り']},
+    {'img': 'static/images/dz_292.png', 'start': ['い', 'た', 'こ', 'お', 'む'], 'end': ['ほ', 'め', 'め', 'ぎ']},
+    {'img': 'static/images/dz_297.png', 'start': ['し', 'ち', 'そ'], 'end': ['ゆ', 'ス', 'う']},
+    {'img': 'static/images/dz_300.png', 'start': ['ベ', 'こ', 'フ', 'た'], 'end': ['ア', 'う', 'リ']},
+    {'img': 'static/images/dz_304.png', 'start': ['シ', 'あ'], 'end': ['ア', 'り', '']},
+    {'img': 'static/images/dz_306.png', 'start': ['し', 'ち', 'そ'], 'end': ['お', 'ト', 'う']},
+    {'img': 'static/images/dz_309.png', 'start': ['う', 'ぐ'], 'end': ['お', 'る']},
+    {'img': 'static/images/dz_311.png', 'start': ['つ', 'ロ', 'ル'], 'end': ['お', 'ド', 'と']},
+    {'img': 'static/images/dz_314.png', 'start': ['な', 'お', 'ず', 'カ', 'シ'], 'end': ['べ', 'う', 'レ', 'チ']},
+    {'img': 'static/images/dz_319.png', 'start': ['シ', 'ゆ', 'こ'], 'end': ['ソ', 'ぐ', 'ん', 'び']},
+    {
+      'img': 'static/images/dz_323.png',
+      'start': ['ふ', 'も', 'お', 'す', 'し', 'と'],
+      'end': ['で', 'う', 'か', 'つ', 'じ', 'り']
+    },
+    {'img': 'static/images/dz_329.png', 'start': ['き', 'ダ', 'マ', 'ウ'], 'end': ['レ', 'ル', 'グ']},
+    {'img': 'static/images/dz_333.png', 'start': ['お', 'ゆ', 'ミ', 'む'], 'end': ['け', 'き', 'い', 'コ']},
+    {'img': 'static/images/dz_337.png', 'start': ['ヒ', 'ほ'], 'end': ['リ', 'よ']},
+    {'img': 'static/images/dz_339.png', 'start': ['ユ', 'ヒ', 'マ'], 'end': ['イ', 'ル', 'み']},
+    {'img': 'static/images/dz_342.png', 'start': ['レ', 'じ'], 'end': ['イ', 'ば']},
+    {'img': 'static/images/dz_344.png', 'start': ['ミ', 'い'], 'end': ['ギ', 'こ']},
+    {'img': 'static/images/dz_346.png', 'start': ['マ', 'ひ'], 'end': ['リ', 'い']},
+    {'img': 'static/images/dz_348.png', 'start': ['ア', 'こ', 'よ'], 'end': ['リ', 'ま', 'と']},
+    {'img': 'static/images/dz_351.png', 'start': ['ミ', 'ゆ', 'ぷ'], 'end': ['コ', 'い', 'き']},
+    {'img': 'static/images/dz_354.png', 'start': ['ユ', 'う', 'ナ'], 'end': ['キ', 'ト', 'く']},
+    {'img': 'static/images/dz_357.png', 'start': ['ア', 'し', 'ち'], 'end': ['ナ', 'テ', 'う']},
+    {'img': 'static/images/dz_360.png', 'start': ['マ', 'お', 'く'], 'end': ['ホ', 'ま', 'ぱ']},
+    {'img': 'static/images/dz_363.png', 'start': ['リ', 'い', 'あ'], 'end': ['ノ', 'と', 'こ']},
+    {'img': 'static/images/dz_366.png', 'start': ['ハ', 'ち', 'ス', 'シ'], 'end': ['ネ', 'ヤ', 'ょ', 'ね']},
+    {'img': 'static/images/dz_370.png', 'start': ['ナ', 'ま', 'サ'], 'end': ['カ', 'ょ', 'わ']},
+    {'img': 'static/images/dz_373.png', 'start': ['カ', 'た', 'め'], 'end': ['ミ', 'い', '']},
+    {'img': 'static/images/dz_376.png', 'start': ['ミ', 'ほ'], 'end': ['ト', 'い']},
+    {'img': 'static/images/dz_378.png', 'start': ['ス', 'カ', 'ギ'], 'end': ['ナ', 'ル']},
+    {'img': 'static/images/dz_381.png', 'start': ['カ', 'り', 'は'], 'end': ['リ', 'て', 'い']},
+    {'img': 'static/images/dz_384.png', 'start': ['イ', 'ち', 'し'], 'end': ['オ', 'し', 'オ']},
+    {'img': 'static/images/dz_387.png', 'start': ['ミ', 'う'], 'end': ['ミ', 'き']},
+    {'img': 'static/images/dz_389.png', 'start': ['ク', 'め'], 'end': ['ミ', 'う']},
+    {'img': 'static/images/dz_391.png', 'start': ['ヨ', 'ふ', 'シ', 'て'], 'end': ['リ', 'ね', 'イ', 'マ']},
+    {'img': 'static/images/dz_395.png', 'start': ['ア', 'ぷ'], 'end': ['ネ', 'ナ']},
+    {'img': 'static/images/dz_397.png', 'start': ['ス', 'メ', 'お'], 'end': ['メ', 'ド', 'い']},
+    {'img': 'static/images/dz_400.png', 'start': ['リ', 'ぐ'], 'end': ['ン', 'ラ']},
+    {'img': 'static/images/dz_402.png', 'start': ['エ', 'で'], 'end': ['コ', 'ヤ']},
+    {'img': 'static/images/dz_404.png', 'start': ['サ', 'マ'], 'end': ['ン', 'マ']},
+    {'img': 'static/images/dz_406.png', 'start': ['ノ', 'だ'], 'end': ['ミ', 'ル']},
+    {'img': 'static/images/dz_408.png', 'start': ['ニ', 'ト', 'え'], 'end': ['ン', 'ゃ', 'れ']},
+    {'img': 'static/images/dz_411.png', 'start': ['シ', 'う'], 'end': ['ブ', 'し']},
+    {'img': 'static/images/dz_413.png', 'start': ['ア', 'ご'], 'end': ['ノ', 'う']},
+    {'img': 'static/images/dz_415.png', 'start': ['マ', 'ぼ', 'お'], 'end': ['ル', 'し', 'ち']},
+    {'img': 'static/images/dz_418.png', 'start': ['ユ', 'の'], 'end': ['リ', 'え']},
+    {'img': 'static/images/dz_420.png', 'start': ['キ', 'ゆ'], 'end': ['カ', 'い']},
+    {'img': 'static/images/dz_422.png', 'start': ['ト', 'ミ'], 'end': ['モ', 'う']},
+    {'img': 'static/images/dz_424.png', 'start': ['シ', 'は'], 'end': ['リ', 'と']},
+    {'img': 'static/images/dz_426.png', 'start': ['ア', 'ビ', 'ぼ'], 'end': ['イ', 'ち', 'バ']},
+    {'img': 'static/images/dz_429.png', 'start': ['チ', 'う', 'し'], 'end': ['カ', 'し', 'め']},
+    {'img': 'static/images/dz_432.png', 'start': ['マ', 'ユ'], 'end': ['ト', 'み']},
+    {'img': 'static/images/dz_434.png', 'start': ['イ', 'バ', 'で', 'よ'], 'end': ['ヤ', 'ア', 'の']},
+    {'img': 'static/images/dz_438.png', 'start': ['ク', 'ド'], 'end': ['カ', 'む']},
+    {'img': 'static/images/dz_440.png', 'start': ['タ', 'ネ', 'フ'], 'end': ['キ', 'ツ', 'め']},
+    {'img': 'static/images/dz_443.png', 'start': ['ジ', 'だ'], 'end': ['ン', 'う']},
+    {'img': 'static/images/dz_445.png', 'start': ['ミ', 'こ', 'し'], 'end': ['ユ', 'う', '']},
+    {'img': 'static/images/dz_448.png', 'start': ['シ', 'お'], 'end': ['ル', 'よ']},
+    {'img': 'static/images/dz_450.png', 'start': ['ミ', 'お'], 'end': ['キ', 'ィ']},
+    {'img': 'static/images/dz_452.png', 'start': ['ミ', 'マ', 'ワ'], 'end': ['キ', 'ト', 'ル']},
+    {'img': 'static/images/dz_455.png', 'start': ['リ', 'も'], 'end': ['マ', 'ふ']},
+    {'img': 'static/images/dz_457.png', 'start': ['モ', 'お'], 'end': ['カ', 'ま']},
+    {'img': 'static/images/dz_459.png', 'start': ['ツ', 'て', 'れ'], 'end': ['ギ', 'ラ', 'ブ']},
+    {'img': 'static/images/dz_462.png', 'start': ['ア', 'モ'], 'end': ['ミ', 'ブ']},
+    {'img': 'static/images/dz_464.png', 'start': ['ル', 'あ'], 'end': ['カ', 'ご']},
+    {'img': 'static/images/dz_466.png', 'start': ['ジ', 'き'], 'end': ['タ', 'し']},
+    {'img': 'static/images/dz_468.png', 'start': ['ペ', 'く', 'お', 'ヤ', 'プ'], 'end': ['ヌ', 'う', 'び', 'ね', 'ス']},
+    {'img': 'static/images/dz_473.png', 'start': ['コ', 'ガ', 'み'], 'end': ['ロ', 'こ', 'く']},
+    {'img': 'static/images/dz_476.png', 'start': ['キ', 'ツ', 'ヤ'], 'end': ['ル', 'レ', 'よ']},
+    {'img': 'static/images/dz_479.png', 'start': ['ム', 'ノ'], 'end': ['ミ', 'ム']},
+    {'img': 'static/images/dz_481.png', 'start': ['ア', 'エ', 'も'], 'end': ['サ', 'な', 'い']},
+    {'img': 'static/images/dz_484.png', 'start': ['ネ', 'メ', 'ぶ'], 'end': ['カ', 'ト', 'い']},
+    {'img': 'static/images/dz_487.png', 'start': ['ク', 'ふ', 'れ'], 'end': ['ナ', 'シ', 'う']},
+    {'img': 'static/images/dz_490.png', 'start': ['イ', 'ド', 'か'], 'end': ['リ', 'ス', 'ぶ']},
+    {'img': 'static/images/dz_493.png', 'start': ['カ', 'の'], 'end': ['ヤ', 'カ']},
+    {'img': 'static/images/dz_495.png', 'start': ['ホ', 'ギ'], 'end': ['レ', 'ス']},
+    {'img': 'static/images/dz_497.png', 'start': ['ク', 'ダ', 'て'], 'end': ['エ', 'ナ', 'つ']},
+    {'img': 'static/images/dz_500.png', 'start': ['チ', 'れ', 'て'], 'end': ['ル', 'ぴ', 'つ']},
+    {'img': 'static/images/dz_503.png', 'start': ['ユ', 'ひ', 'テ'], 'end': ['ニ', 'り', 'つ']}
+  ];
+
+  new Vue({
+    el: '#app',
+    data: {
+      data: DATA,
+      selectedItem: null,
+      result: [],
+    },
+    methods: {
+      onItemSelect: function(selectedItem) {
+        var letter, endQ;
+        var self = this;
+        self.result = [];
+
+        for (var i = 0; i < selectedItem.end.length; i++) {
+          letter = selectedItem.end[i];
+          endQ = getFullQuery([letter]);
+          var letterResult = {
+            'letters': endQ,
+            'items': [],
+          };
+          for (var j = 0; j < self.data.length; j++) {
+            var startQ = getFullQuery(self.data[j].start);
+            if (endQ.filter(value => startQ.includes(value)).length) {
+              letterResult.items.push(self.data[j])
+            }
+          }
+          self.result.push(letterResult);
+        }
+
+
+      }
+    }
+  });
+
+  function getFullQuery(list) {
+    var q = [];
+    for (var i = 0; i < list.length; i++) {
+      q.push(katakanaToHiragana(list[i]));
+      q.push(hiraganaToKatagana(list[i]));
+    }
+    return q
+  }
+
+  function katakanaToHiragana(src) {
+    return src.replace(/[\u30a1-\u30f6]/g, function(match) {
+      var chr = match.charCodeAt(0) - 0x60;
+      return String.fromCharCode(chr);
+    });
+  }
+
+  function hiraganaToKatagana(src) {
+    return src.replace(/[\u3041-\u3096]/g, function(match) {
+      var chr = match.charCodeAt(0) + 0x60;
+      return String.fromCharCode(chr);
+    });
+  }
+</script>
+
+</body>
+</html>
